@@ -1,20 +1,12 @@
-import type { WidgetId, WidgetManifest } from "@/types/widget.types";
-import type { Component } from "vue";
+import type { WidgetId, WidgetManifest } from '@/types/widget.types';
+import type { Component } from 'vue';
 
 export class WidgetRegistry {
-  private widgets = new Map<
-    WidgetId,
-    { manifest: WidgetManifest; component: Component }
-  >();
+  private widgets = new Map<WidgetId, { manifest: WidgetManifest; component: Component }>();
 
-  register<TManifest extends WidgetManifest>(
-    manifest: TManifest,
-    component: Component,
-  ): void {
+  register<TManifest extends WidgetManifest>(manifest: TManifest, component: Component): void {
     if (this.widgets.has(manifest.id)) {
-      throw new Error(
-        `Виджет с ID {manifest.id} уже зарегистрирован в системе`,
-      );
+      throw new Error(`Виджет с ID {manifest.id} уже зарегистрирован в системе`);
     }
     this.widgets.set(manifest.id, { manifest, component });
   }
