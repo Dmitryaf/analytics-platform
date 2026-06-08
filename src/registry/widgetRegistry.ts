@@ -27,3 +27,5 @@ export class WidgetRegistry {
     return Array.from(this.widgets.values());
   }
 }
+
+export const widgetRegistry = new WidgetRegistry();
