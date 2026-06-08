@@ -3,8 +3,7 @@ import './widgets';
 </script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>test</p>
+  <router-view />
 </template>
 
 <style scoped></style>
