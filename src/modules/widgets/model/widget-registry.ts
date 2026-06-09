@@ -7,6 +7,13 @@ export class WidgetRegistry {
     if (this.widgets.has(definition.id)) {
       throw new Error(`Виджет с ID "${definition.id}" уже зарегистрирован`);
     }
+
+    const validResult = definition.settingsSchema.safeParse(definition.defaultSettings);
+
+    if (!validResult.success) {
+      throw new Error(`Некорректные defaultSettings для виджета "${definition.id}"`);
+    }
+
     this.widgets.set(definition.id, definition);
   }
 
