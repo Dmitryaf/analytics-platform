@@ -1,5 +1,7 @@
-import { WidgetRegistry } from '@/modules/widgets/model/widget-registry';
+import z from 'zod';
 import { describe, expect, it } from 'vitest';
+import { WidgetRegistry } from '@/modules/widgets/model/widget-registry';
+import type { WidgetDefinition } from '@/modules/widgets/model/types';
 
 describe('WidgetRegistry', () => {
   it('registers widget definition', () => {
@@ -9,7 +11,7 @@ describe('WidgetRegistry', () => {
       title: 'Commits Chart',
       version: '1.0.0',
       defaultSettings: {},
-      settingsSchema: {},
+      settingsSchema: z.object({}),
       componentLoader: async () => ({ default: {} as never }),
     };
 
@@ -25,7 +27,7 @@ describe('WidgetRegistry', () => {
       title: 'Commits Chart',
       version: '1.0.0',
       defaultSettings: {},
-      settingsSchema: {},
+      settingsSchema: z.object({}),
       componentLoader: async () => ({ default: {} as never }),
     };
 
@@ -41,7 +43,7 @@ describe('WidgetRegistry', () => {
       title: 'Commits Chart',
       version: '1.0.0',
       defaultSettings: {},
-      settingsSchema: {},
+      settingsSchema: z.object({}),
       componentLoader: async () => ({ default: {} as never }),
     };
 
@@ -59,7 +61,7 @@ describe('WidgetRegistry', () => {
       title: 'Commits Chart',
       version: '1.0.0',
       defaultSettings: {},
-      settingsSchema: {},
+      settingsSchema: z.object({}),
       componentLoader: async () => ({ default: {} as never }),
     };
 
@@ -75,7 +77,7 @@ describe('WidgetRegistry', () => {
       title: 'Commits Chart',
       version: '1.0.0',
       defaultSettings: {},
-      settingsSchema: {},
+      settingsSchema: z.object({}),
       componentLoader: async () => ({ default: {} as never }),
     };
 
@@ -83,5 +85,27 @@ describe('WidgetRegistry', () => {
       registry.register(widgetDefinition);
       registry.register(widgetDefinition);
     }).toThrow('Виджет с ID "commits-chart" уже зарегистрирован');
+  });
+
+  it('throws error when default settings are invalid', () => {
+    const settingsSchema = z.object({
+      title: z.string(),
+    });
+    const registry = new WidgetRegistry();
+    const widgetDefinition: WidgetDefinition<typeof settingsSchema> = {
+      id: 'commits-chart',
+      title: 'Commits Chart',
+      version: '1.0.0',
+      defaultSettings: {
+        // @ts-expect-error проверяем runtime-валидацию Registry
+        title: 123,
+      },
+      settingsSchema,
+      componentLoader: async () => ({ default: {} as never }),
+    };
+
+    expect(() => {
+      registry.register(widgetDefinition);
+    }).toThrow('Некорректные defaultSettings для виджета "commits-chart"');
   });
 });
