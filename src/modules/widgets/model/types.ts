@@ -1,14 +1,15 @@
 import type { Component } from 'vue';
+import type { z, ZodType } from 'zod';
 
 export type WidgetId = string;
 
-export interface WidgetDefinition {
+export interface WidgetDefinition<TSettingsSchema extends ZodType = ZodType> {
   id: WidgetId;
   title: string;
   version: string;
   description?: string;
-  defaultSettings: unknown;
-  settingsSchema: unknown;
+  defaultSettings: z.infer<TSettingsSchema>;
+  settingsSchema: TSettingsSchema;
   componentLoader: () => Promise<{ default: Component }>;
 }
 
