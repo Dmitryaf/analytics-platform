@@ -1,6 +1,6 @@
 import type { WidgetDefinition, WidgetId } from '@/modules/widgets/model/types';
 
-export class widgetRegistry {
+export class WidgetRegistry {
   private widgets = new Map<WidgetId, WidgetDefinition>();
 
   register(definition: WidgetDefinition) {
