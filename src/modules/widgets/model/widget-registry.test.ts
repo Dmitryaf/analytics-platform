@@ -1,89 +1,84 @@
 import z from 'zod';
 import { describe, expect, it } from 'vitest';
 import { WidgetRegistry } from '@/modules/widgets/model/widget-registry';
-import type { WidgetDefinition } from '@/modules/widgets/model/types';
+import type { WidgetManifest } from '@/modules/widgets/model/types';
 
 describe('WidgetRegistry', () => {
   it('registers widget definition', () => {
     const registry = new WidgetRegistry();
-    const widgetDefinition = {
+    const WidgetManifest = {
       id: 'commits-chart',
       title: 'Commits Chart',
       version: '1.0.0',
       defaultSettings: {},
       settingsSchema: z.object({}),
-      componentLoader: async () => ({ default: {} as never }),
     };
 
-    registry.register(widgetDefinition);
+    registry.register(WidgetManifest);
 
     expect(registry.has('commits-chart')).toBe(true);
   });
 
   it('returns widget by id', () => {
     const registry = new WidgetRegistry();
-    const widgetDefinition = {
+    const WidgetManifest = {
       id: 'commits-chart',
       title: 'Commits Chart',
       version: '1.0.0',
       defaultSettings: {},
       settingsSchema: z.object({}),
-      componentLoader: async () => ({ default: {} as never }),
     };
 
-    registry.register(widgetDefinition);
+    registry.register(WidgetManifest);
 
-    expect(registry.get('commits-chart')).toBe(widgetDefinition);
+    expect(registry.get('commits-chart')).toBe(WidgetManifest);
   });
 
   it('returns all registered widgets', () => {
     const registry = new WidgetRegistry();
-    const widgetDefinition = {
+    const WidgetManifest = {
       id: 'commits-chart',
       title: 'Commits Chart',
       version: '1.0.0',
       defaultSettings: {},
       settingsSchema: z.object({}),
-      componentLoader: async () => ({ default: {} as never }),
     };
 
-    registry.register(widgetDefinition);
+    registry.register(WidgetManifest);
 
     const widget = registry.getAll();
 
-    expect(widget).toEqual([widgetDefinition]);
+    expect(widget).toEqual([WidgetManifest]);
   });
 
   it('checks if widget exists', () => {
     const registry = new WidgetRegistry();
-    const widgetDefinition = {
+    const WidgetManifest = {
       id: 'commits-chart',
       title: 'Commits Chart',
       version: '1.0.0',
       defaultSettings: {},
       settingsSchema: z.object({}),
-      componentLoader: async () => ({ default: {} as never }),
     };
 
-    registry.register(widgetDefinition);
+    registry.register(WidgetManifest);
 
     expect(registry.has('commits-chart')).toBe(true);
   });
 
   it('throws error when widget id is duplicated', () => {
     const registry = new WidgetRegistry();
-    const widgetDefinition = {
+    const WidgetManifest = {
       id: 'commits-chart',
       title: 'Commits Chart',
       version: '1.0.0',
       defaultSettings: {},
       settingsSchema: z.object({}),
-      componentLoader: async () => ({ default: {} as never }),
     };
 
     expect(() => {
-      registry.register(widgetDefinition);
-      registry.register(widgetDefinition);
+      registry.register(WidgetManifest);
+      registry.register(WidgetManifest);
     }).toThrow('Виджет с ID "commits-chart" уже зарегистрирован');
   });
 
@@ -92,7 +87,7 @@ describe('WidgetRegistry', () => {
       title: z.string(),
     });
     const registry = new WidgetRegistry();
-    const widgetDefinition: WidgetDefinition<typeof settingsSchema> = {
+    const WidgetManifest: WidgetManifest<typeof settingsSchema> = {
       id: 'commits-chart',
       title: 'Commits Chart',
       version: '1.0.0',
@@ -101,11 +96,10 @@ describe('WidgetRegistry', () => {
         title: 123,
       },
       settingsSchema,
-      componentLoader: async () => ({ default: {} as never }),
     };
 
     expect(() => {
-      registry.register(widgetDefinition);
+      registry.register(WidgetManifest);
     }).toThrow('Некорректные defaultSettings для виджета "commits-chart"');
   });
 });

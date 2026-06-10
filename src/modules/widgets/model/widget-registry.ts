@@ -1,9 +1,9 @@
-import type { WidgetDefinition, WidgetId } from '@/modules/widgets/model/types';
+import type { WidgetManifest, WidgetId } from '@/modules/widgets/model/types';
 
 export class WidgetRegistry {
-  private widgets = new Map<WidgetId, WidgetDefinition>();
+  private widgets = new Map<WidgetId, WidgetManifest>();
 
-  register(definition: WidgetDefinition) {
+  register(definition: WidgetManifest) {
     if (this.widgets.has(definition.id)) {
       throw new Error(`Виджет с ID "${definition.id}" уже зарегистрирован`);
     }
@@ -17,7 +17,7 @@ export class WidgetRegistry {
     this.widgets.set(definition.id, definition);
   }
 
-  get(id: WidgetId): WidgetDefinition | undefined {
+  get(id: WidgetId): WidgetManifest | undefined {
     return this.widgets.get(id);
   }
 
