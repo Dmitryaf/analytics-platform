@@ -13,8 +13,9 @@ export interface WidgetManifest<TSettingsSchema extends ZodType = ZodType> {
 
 export interface WidgetInstance {
   instanceId: string;
-  type: WidgetId;
+  widgetId: WidgetId;
   settings: Record<string, unknown>;
+  position: WidgetPosition;
 }
 
 export interface WidgetPosition {
