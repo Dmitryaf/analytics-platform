@@ -23,7 +23,7 @@ export function createWidgetInstance({
   const validSettings = manifest.settingsSchema.safeParse(settings);
 
   if (!validSettings.success) {
-    throw new Error(`Некорректные настройки для экземпляра виджета "${manifest.id}"`);
+    throw new Error(`Некорректные настройки для экземпляра виджета ${manifest.id}`);
   }
 
   return {
